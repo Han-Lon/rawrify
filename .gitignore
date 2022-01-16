@@ -1,0 +1,22 @@
+# Don't push Python virtual environments
+venv/
+env/
+
+# Don't push build-specific Terraform files
+*.tfstate*
+.terraform/
+*.tfvars*
+
+# Ignore the example docs
+docs/*.py
+*.txt
+
+# Ignore TF Lock file-- not needed right now
+.terraform.lock.hcl
+
+# Ignore IDE specific dirs
+.idea/
+__pycache__/
+
+# Don't push the Lambda build archives-- these are built by Terraform
+lambda_archives/

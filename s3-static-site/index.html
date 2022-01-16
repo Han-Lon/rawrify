@@ -1,0 +1,110 @@
+<html>
+<head>
+    <title>Rawrify</title>
+    <meta name="description" content="Ultra-lightweight API for a variety of useful tasks">
+    <meta name="keywords" content="json,api,rawdata,programmatic">
+</head>
+<body bgcolor="">
+<table style="margin-left:auto;margin-right:auto;">
+    <tbody>
+        <tr>
+            <td align="left">
+                <pre>
+#######################################
+ _____                     _  __
+|  __ \                   (_)/ _|
+| |__) |__ ___      ___ __ _| |_ _   _
+|  _  // _` \ \ /\ / / '__| |  _| | | |
+| | \ \ (_| |\ V  V /| |  | | | | |_| |
+|_|  \_\__,_| \_/\_/ |_|  |_|_|  \__, |
+                                  __/ |
+                                 |___/
+#######################################
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                <h4> An ultra-lightweight general utility API </h4>
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                [ <a href="/">home</a> ] [ <a href="/terms-conditions.html">Terms & Conditions of Use</a> ] [ <a href="">GitHub Repo</a> ]
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div>
+    <h2>Routes</h2>
+    <p>
+    ---- IP Address ---- <br>
+    https://ipv4.rawrify.com/ - your public IPv4 address <br>
+    https://ipv6.rawrify.com/ - your public IPv6 address <br>
+    <br>---- User Agent ---- <br>
+    https://www.rawrify.com/user-agent - your user agent<br>
+    <br>---- Base64 Encoding/Decoding ---- <br>
+    https://www.rawrify.com/base64 - base64 encoding and decoding - refer to the docs for how to use
+    </p>
+</div>
+
+<div>
+    <h2>What is this?</h2>
+    <p>
+    An ultra-lightweight, easy-to-use, free, and open-source utility API for retrieving
+    things like a client's IP address, user-agent, quick base64 encoding/decoding, and so on.
+    Refer to routes and the documentation for more info on what Rawrify can do.
+    </p>
+    <h2>How can I learn to use this?</h2>
+    <p>
+    Refer to the official documentation for in-depth examples of and explanations of how to use Rawrify.
+    </p>
+    <h2>Why would I need a tool like this?</h2>
+    Programmatic access to information like IP address, user agent, base64 data, and so on
+    serves a variety of purposes. <br><br>
+    - For example, say your program executes on a remote host and needs to grab the host's IP address. Just query
+    Rawrify for the public IP and you're good to go. <br>
+    - Another example, say you're building infrastructure using Terraform and want to dynamically assign your own public
+    IP address to a security group (a real use-case I run into frequently). To avoid hardcoding an IP address, you can
+    create an "http" data source with a "url" argument pointing to https://ipv4.rawrify.com to grab your public IP!
+    Much more clean and portable.
+    - Say you don't want to/don't care to implement base64 encoding in your chosen
+    language/program. Bam. Here you go. Quick and easy encoding/decoding.
+    <h2>Why did you make this?</h2>
+    <p>
+    I'm a huge fan of extremely lightweight services that deliver only what you
+    need, nothing else. Don't get me wrong-- I can appreciate over the top, insanely
+    feature rich web apps (RIP Flash game sites), but these lightweight tools hold a special
+    place in my personal and professional heart. Other services like icanhazip.com were a huge inspiration for this.
+    </p>
+    <h2>Do you collect/store my data?</h2>
+    <p>
+    No. I do not collect nor store any client-specific information on my end. This
+    is subject to change if required by law in the future, but I have no plans/desire
+    to implement such tracking as of now. Refer to the privacy policy for more information.
+    </p>
+</div>
+
+<table style="margin-left:auto;margin-right:auto;">
+    <tbody>
+        <td>
+            <!-- Isometric2 font in Figlet courtesy of Lennert Stock -->
+            <pre>
+      ___           ___           ___           ___                       ___
+     /\  \         /\  \         /\  \         /\  \                     /\__\
+    /::\  \       /::\  \       _\:\  \       /::\  \       ___         /:/ _/_         ___
+   /:/\:\__\     /:/\:\  \     /\ \:\  \     /:/\:\__\     /\__\       /:/ /\__\       /|  |
+  /:/ /:/  /    /:/ /::\  \   _\:\ \:\  \   /:/ /:/  /    /:/__/      /:/ /:/  /      |:|  |
+ /:/_/:/__/___ /:/_/:/\:\__\ /\ \:\ \:\__\ /:/_/:/__/___ /::\  \     /:/_/:/  /       |:|  |
+ \:\/:::::/  / \:\/:/  \/__/ \:\ \:\/:/  / \:\/:::::/  / \/\:\  \__  \:\/:/  /      __|:|__|
+  \::/~~/~~~~   \::/__/       \:\ \::/  /   \::/~~/~~~~   ~~\:\/\__\  \::/__/      /::::\  \
+   \:\~~\        \:\  \        \:\/:/  /     \:\~~\          \::/  /   \:\  \      ~~~~\:\  \
+    \:\__\        \:\__\        \::/  /       \:\__\         /:/  /     \:\__\          \:\__\
+     \/__/         \/__/         \/__/         \/__/         \/__/       \/__/           \/__/
+            </pre>
+        </td>
+    </tbody>
+</table>
+</body>
+</html>
