@@ -66,4 +66,4 @@ def lambda_handler(event, context):
         return process_POST_request(decoded_form[0])
 
     else:
-        return f'{{"ERROR": "Request not recognized - {event["resource"]}"}}'
+        return f'{{"ERROR": "Request not recognized - {event["rawPath"]}"}}'
