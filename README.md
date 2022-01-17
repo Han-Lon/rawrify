@@ -22,6 +22,9 @@ things like getting your public IPv4 address, quickly encoding files/strings as 
 The rest of this README are for the infrastructure and app code that support Rawrify.
 
 
+## Architecture Diagram
+![architecture_diagram](docs/architecture_diagram.svg)
+
 
 ## Feature Roadmap
 - v0.3 (TBD)

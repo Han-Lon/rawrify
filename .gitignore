@@ -20,3 +20,6 @@ __pycache__/
 
 # Don't push the Lambda build archives-- these are built by Terraform
 lambda_archives/
+
+# Don't upload raw diagram XML files
+*.drawio
