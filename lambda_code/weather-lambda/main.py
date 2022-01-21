@@ -1,8 +1,11 @@
+"""
+    Lambda for reporting the weather. Currently only handles temperature.
+    Weather data courtesy of https://www.weather.gov/documentation/services-web-api
+"""
 import requests
 import os
 
 # Easy way to get latitude/longitude quickly https://developers.google.com/maps/documentation/geocoding/overview
-# Format for querying
 
 
 def lambda_handler(event, context):
@@ -15,6 +18,7 @@ def lambda_handler(event, context):
             return '{"ERROR": "Please supply two query string parameters: a latitude and a longitude"}'
 
         try:
+            # TODO consider adding user-agent to requests, as recommended by weather.gov
             metadata = requests.get(f"https://api.weather.gov/points/{round(float(event['queryStringParameters']['latitude']), 4)},{round(float(event['queryStringParameters']['longitude']), 4)}")
             forecastHourly = requests.get(metadata.json()["properties"]["forecastHourly"]).json()
             currentTemperature = f'{forecastHourly["properties"]["periods"][0]["temperature"]}{forecastHourly["properties"]["periods"][0]["temperatureUnit"]}'

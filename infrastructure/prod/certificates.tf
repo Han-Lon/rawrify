@@ -1,7 +1,7 @@
 module "rawrify-wildcard-certificate" {
   source = "../../tf-modules/rawrify-certificate"
 
-  cert_domain_name = "*.rawrify.com"
+  cert_domain_name = "ipv4.rawrify.com"
   route53_domain_name = "rawrify.com"
 }
 
@@ -12,6 +12,6 @@ module "rawrify-ipv6-certificate" {
     aws = aws.aws-us-east-1
   }
 
-  cert_domain_name = "ipv6.rawrify.com"
+  cert_domain_name = "*.rawrify.com"
   route53_domain_name = "rawrify.com"
 }

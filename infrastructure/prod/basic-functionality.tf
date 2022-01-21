@@ -1,4 +1,4 @@
-module "rawrify-basic-api-gateway" {
+module "rawrify-api-gateway" {
   source = "../../tf-modules/rawrify-api-gateway"
 
   api_name = "rawrify-basic-functionality-prod-api"
@@ -14,7 +14,7 @@ module "_3z-lambda" {
   source = "../../tf-modules/rawrify-lambda"
 
 
-  api_execution_arn = module.rawrify-basic-api-gateway.api_execution_arn
+  api_execution_arn = module.rawrify-api-gateway.api_execution_arn
   environment = "dev"  # TODO change this to prod
   function_name = "3z-functionality"
   input_path = "../../lambda_code/3z-lambda/main.py"
@@ -26,26 +26,68 @@ module "_3z-integration" {
   source = "../../tf-modules/rawrify-api-gateway-integration"
 
 
-  api_id = module.rawrify-basic-api-gateway.api_id
+  api_id = module.rawrify-api-gateway.api_id
   integration_method = "POST"
   integration_uri = module._3z-lambda.invoke_arn
-  route_keys = ["GET /"]
+  route_keys = ["GET /ip"]
 }
 
-module "_3z-ipv6-cloudfront-distribution" {
+module "cloudfront-distribution" {
   source = "../../tf-modules/rawrify-cloudfront"
 
   environment = "prod"
-  origin_domain_name = trimprefix(trimsuffix(module.rawrify-basic-api-gateway.invoke_url, "/"), "https://")
+  origin_domain_name = trimprefix(trimsuffix(module.rawrify-api-gateway.invoke_url, "/"), "https://")
   alternate_domain_certificate = module.rawrify-ipv6-certificate.certificate_arn
-  alternate_domain_name = "ipv6.rawrify.com"
+  alternate_domain_name = "*.rawrify.com"
+  origins = [
+    {
+      domain_name : trimprefix(trimsuffix(module.rawrify-api-gateway.invoke_url, "/"), "https://")
+      origin_id : "rawrify-api-origin"
+      origin_path : null
+    },
+    {
+      domain_name : aws_s3_bucket.website-bucket.bucket_regional_domain_name
+      origin_id : "rawrify-s3-origin"
+      origin_path : null
+      S3_config : aws_cloudfront_origin_access_identity.website-distribution-identity.cloudfront_access_identity_path
+    }]
+
+  ordered_caches = [
+    {
+      allowed_methods = ["GET", "HEAD"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/ip"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = false
+    },
+    {
+      allowed_methods = ["GET", "HEAD"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/user-agent"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = false
+    },
+    {
+      allowed_methods = ["GET", "HEAD"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/temperature"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = false
+    },
+    {
+      allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/base64"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = true
+    }]
 }
 
 module "_3z-useragent-integration" {
   source = "../../tf-modules/rawrify-api-gateway-integration"
 
 
-  api_id = module.rawrify-basic-api-gateway.api_id
+  api_id = module.rawrify-api-gateway.api_id
   integration_method = "POST"
   integration_uri = module._3z-lambda.invoke_arn
   route_keys = ["GET /user-agent"]
