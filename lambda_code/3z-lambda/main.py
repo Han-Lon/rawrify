@@ -8,7 +8,7 @@ import os
 def lambda_handler(event, context):
     print(event) if os.getenv("ENV", None) == "dev" else None
 
-    if event["rawPath"] == "/":
+    if event["rawPath"] == "/ip":
         return event["requestContext"]["http"]["sourceIp"]
     elif event["rawPath"] == "/user-agent":
         return event["requestContext"]["http"]["userAgent"]

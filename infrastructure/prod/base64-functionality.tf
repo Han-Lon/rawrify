@@ -1,20 +1,8 @@
-module "rawrify-advanced-api-gateway" {
-  source = "../../tf-modules/rawrify-api-gateway"
-
-  api_name = "rawrify-advanced-functionality-prod-api"
-  burst_limit = 1000
-  rate_limit = 1000
-  environment = "prod"
-  custom_domain_names = ["*.rawrify.com"]
-  custom_domain_certificate = module.rawrify-wildcard-certificate.certificate_arn
-  custom_domain_name_mappings = [""]
-}
-
 module "base64-lambda" {
   source = "../../tf-modules/rawrify-lambda"
 
 
-  api_execution_arn = module.rawrify-advanced-api-gateway.api_execution_arn
+  api_execution_arn = module.rawrify-api-gateway.api_execution_arn
   environment = "dev"  # TODO change this to prod
   function_name = "base64-functionality"
   input_path = "../../lambda_code/base64-lambda/main.py"
@@ -27,7 +15,7 @@ module "base64-integration-get" {
   source = "../../tf-modules/rawrify-api-gateway-integration"
 
 
-  api_id = module.rawrify-advanced-api-gateway.api_id
+  api_id = module.rawrify-api-gateway.api_id
   integration_method = "POST"
   integration_uri = module.base64-lambda.invoke_arn
   route_keys = ["GET /base64", "POST /base64"]

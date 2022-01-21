@@ -23,8 +23,18 @@ variable "alternate_domain_certificate" {
   type = string
 }
 
-variable "origin_path" {
-  description = "An additional path to specify for the origin"
-  type = string
-  default = ""
+variable "origins" {
+  description = "Origins to add to CloudFront."
+  type = list(map(string))
+}
+
+variable "ordered_caches" {
+  description = "Ordered cache behaviors for the CloudFront distribution."
+  type = list(object({
+    allowed_methods = list(string)
+    cached_methods = list(string)
+    path_pattern = string
+    target_origin_id = string
+    enable_query_string = bool
+  }))
 }
