@@ -3,6 +3,16 @@
     <title>Rawrify</title>
     <meta name="description" content="Ultra-lightweight API for a variety of useful tasks">
     <meta name="keywords" content="json,api,rawdata,programmatic">
+    <style>
+    div.sticky {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      background-color: white;
+      padding: 50px;
+      font-size: 20px;
+    }
+    </style>
 </head>
 <body bgcolor="">
 <table style="margin-left:auto;margin-right:auto;">
@@ -10,7 +20,7 @@
         <tr>
             <td align="left">
                 <pre>
-#######################################
+
  _____                     _  __
 |  __ \                   (_)/ _|
 | |__) |__ ___      ___ __ _| |_ _   _
@@ -19,22 +29,26 @@
 |_|  \_\__,_| \_/\_/ |_|  |_|_|  \__, |
                                   __/ |
                                  |___/
-#######################################
                 </pre>
             </td>
         </tr>
         <tr>
-            <td align="left">
-                <h4> An ultra-lightweight general utility API </h4>
+            <td align="left" style="text-align:center;">
+                <h2> An ultra-lightweight general utility API </h2>
+                A Project by Joseph Morris (GitHub: <a href="https://github.com/Han-Lon" target="_blank" rel="noopener noreferrer">Han-Lon</a>)
             </td>
         </tr>
         <tr>
-            <td align="left">
-                [ <a href="/">home</a> ] [ <a href="/terms-conditions.html" target="_blank" rel="noopener noreferrer">Terms & Conditions of Use</a> ] [ <a href="https://github.com/Han-Lon/rawrify/wiki" target="_blank" rel="noopener noreferrer">Wiki</a> ] [ <a href="https://github.com/Han-Lon/rawrify" target="_blank" rel="noopener noreferrer">GitHub Repo</a> ]
+            <td>
+
             </td>
         </tr>
     </tbody>
 </table>
+
+<div class="sticky" align="center">
+                    [ <a href="/">Home</a> ] [ <a href="/terms-conditions.html" target="_blank" rel="noopener noreferrer">Terms & Conditions of Use</a> ] [ <a href="https://github.com/Han-Lon/rawrify/wiki" target="_blank" rel="noopener noreferrer">Wiki</a> ] [ <a href="https://github.com/Han-Lon/rawrify" target="_blank" rel="noopener noreferrer">GitHub Repo</a> ] [ <a href="https://ko-fi.com/hanlon777" target="_blank" rel="noopener noreferrer">Donate</a> ]
+                </div>
 
 <div>
     <h2>Routes</h2>
@@ -45,7 +59,9 @@
     <br>---- User Agent ---- <br>
     https://www.rawrify.com/user-agent - your user agent<br>
     <br>---- Base64 Encoding/Decoding ---- <br>
-    https://www.rawrify.com/base64 - base64 encoding and decoding - refer to the docs for how to use
+    https://www.rawrify.com/base64 - base64 encoding and decoding - refer to wiki for how to use <br>
+    <br>---- Weather ---- <br>
+    https://www.rawrify.com/temperature?latitude={latitude}&longitude={longitude} - refer to wiki for more info <br>
     </p>
 </div>
 
@@ -54,11 +70,11 @@
     <p>
     An ultra-lightweight, easy-to-use, free, and open-source utility API for retrieving
     things like a client's IP address, user-agent, quick base64 encoding/decoding, and so on.
-    Refer to routes and the documentation for more info on what Rawrify can do.
+    Refer to routes and the <a href="https://github.com/Han-Lon/rawrify/wiki" target="_blank" rel="noopener noreferrer">documentation</a> for more info on what Rawrify can do.
     </p>
     <h2>How can I learn to use this?</h2>
     <p>
-    Refer to the official documentation for in-depth examples of and explanations of how to use Rawrify.
+    Refer to the <a href="https://github.com/Han-Lon/rawrify/wiki" target="_blank" rel="noopener noreferrer">official documentation</a> for in-depth examples of and explanations of how to use Rawrify.
     </p>
     <h2>Why would I need a tool like this?</h2>
     Programmatic access to information like IP address, user agent, base64 data, and so on
@@ -68,7 +84,7 @@
     - Another example, say you're building infrastructure using Terraform and want to dynamically assign your own public
     IP address to a security group (a real use-case I run into frequently). To avoid hardcoding an IP address, you can
     create an "http" data source with a "url" argument pointing to https://ipv4.rawrify.com to grab your public IP!
-    Much more clean and portable.
+    Much more clean and portable. <br>
     - Say you don't want to/don't care to implement base64 encoding in your chosen
     language/program. Bam. Here you go. Quick and easy encoding/decoding.
     <h2>Why did you make this?</h2>
@@ -76,7 +92,8 @@
     I'm a huge fan of extremely lightweight services that deliver only what you
     need, nothing else. Don't get me wrong-- I can appreciate over the top, insanely
     feature rich web apps (RIP Flash game sites), but these lightweight tools hold a special
-    place in my personal and professional heart. Other services like icanhazip.com were a huge inspiration for this.
+    place in my personal and professional heart. Other services like icanhazip.com were a huge inspiration for this. <br><br>
+    If my first cellphone could open this site, it's something special.
     </p>
     <h2>Do you collect/store my data?</h2>
     <p>
