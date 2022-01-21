@@ -23,3 +23,5 @@ lambda_archives/
 
 # Don't upload raw diagram XML files
 *.drawio
+
+# Don't pull .github/ directory since end-users won't need it
