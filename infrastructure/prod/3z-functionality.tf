@@ -1,3 +1,17 @@
+######################################################
+# Rawrify Infrastructure                             #
+# Author: Joseph Morris (https://github.com/Han-Lon) #
+# Licensed under the Apache-2.0 license              #
+######################################################
+
+/*
+  The "3z" functions, a double entendre because there's 3 functions (/ipv4, /ipv6, /user-agent) and they're the
+  easiest out of everything else to create. Note that by 3 functions, I mean pieces of functionality-- there's just
+  one Lambda function.
+
+  Creates the 3z Lambda as well as the IP address and user-agent API Gateway integrations.
+*/
+
 module "_3z-lambda" {
   source = "../../tf-modules/rawrify-lambda"
 

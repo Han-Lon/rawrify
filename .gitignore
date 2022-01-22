@@ -25,3 +25,9 @@ lambda_archives/
 *.drawio
 
 # Don't pull .github/ directory since end-users won't need it
+.github/
+
+# Don't push requests-toolbelt Python library-- build locally to ensure most recent version is being used (and I'm not packaging someone else's code into my repo)
+!lambda_code/requests-toolbelt-layer/python
+lambda_code/requests-toolbelt-layer/python/*
+!lambda_code/requests-toolbelt-layer/python/README.md

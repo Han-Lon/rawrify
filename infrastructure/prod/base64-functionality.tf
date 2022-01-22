@@ -1,3 +1,17 @@
+######################################################
+# Rawrify Infrastructure                             #
+# Author: Joseph Morris (https://github.com/Han-Lon) #
+# Licensed under the Apache-2.0 license              #
+######################################################
+
+/*
+  The base64 functionality component of Rawrify. Handles encoding strings and files to Base64 or decoding Base64
+  strings into regular strings.
+
+  Stands up a base64 Lambda function and necessary integrations with API Gateway. Plus, a required Lambda layer
+  that contains an external Python library for decoding form responses.
+*/
+
 module "base64-lambda" {
   source = "../../tf-modules/rawrify-lambda"
 
