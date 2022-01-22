@@ -1,3 +1,13 @@
+######################################################
+# Rawrify Infrastructure                             #
+# Author: Joseph Morris (https://github.com/Han-Lon) #
+# Licensed under the Apache-2.0 license              #
+######################################################
+
+/*
+  Generate necessary certificates in ACM for ipv4.rawrify.com (for API Gateway) and a wilcard *.rawrify.com (for CloudFront)
+*/
+
 module "rawrify-wildcard-certificate" {
   source = "../../tf-modules/rawrify-certificate"
 

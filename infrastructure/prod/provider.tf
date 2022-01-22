@@ -1,8 +1,18 @@
+######################################################
+# Rawrify Infrastructure                             #
+# Author: Joseph Morris (https://github.com/Han-Lon) #
+# Licensed under the Apache-2.0 license              #
+######################################################
+
+/*
+  Define Terraform providers for AWS and retrieve some helpful data sources
+*/
+
 provider "aws" {
   region = "us-east-2"
 }
 
-# Needed because of some bullshit where Route53 A record aliases ONLY work if your Cloudfront distribution is in us-east-1 fml
+# Needed because of some bullcrap where Route53 A record aliases ONLY work if your Cloudfront distribution is in us-east-1 fml
 provider "aws" {
   alias = "aws-us-east-1"
   region = "us-east-1"

@@ -1,3 +1,15 @@
+######################################################
+# Rawrify Infrastructure                             #
+# Author: Joseph Morris (https://github.com/Han-Lon) #
+# Licensed under the Apache-2.0 license              #
+######################################################
+
+/*
+  Functionality for retrieving various weather data for locations.
+
+  Stands up a Lambda function and necessary API Gateway integrations
+*/
+
 module "weather-lambda" {
   source = "../../tf-modules/rawrify-lambda"
 

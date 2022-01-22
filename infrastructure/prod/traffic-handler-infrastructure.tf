@@ -1,3 +1,17 @@
+######################################################
+# Rawrify Infrastructure                             #
+# Author: Joseph Morris (https://github.com/Han-Lon) #
+# Licensed under the Apache-2.0 license              #
+######################################################
+
+/*
+  What I'm calling the "traffic handling"-- the CloudFront distribution and API Gateway infrastructure that will
+  handle incoming user requests and route appropriately.
+
+  Stands up a CloudFront distribution that handles traffic for the static site in S3 as well as API Gateway.
+  Also stands up the API Gateway and necessary routes for user traffic.
+*/
+
 module "rawrify-api-gateway" {
   source = "../../tf-modules/rawrify-api-gateway"
 
