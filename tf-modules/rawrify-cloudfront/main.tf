@@ -78,7 +78,6 @@ resource "aws_cloudfront_distribution" "rawrify-cloudfront-distribution" {
     cloudfront_default_certificate = false
     acm_certificate_arn            = var.alternate_domain_certificate
     ssl_support_method             = "sni-only"
-    minimum_protocol_version = ""
   }
 
   price_class = "PriceClass_100"
