@@ -115,11 +115,13 @@ resource "aws_s3_bucket_public_access_block" "website-bucket-access" {
 }
 
 # Upload the index.html file
-resource "aws_s3_bucket_object" "index-file-upload" {
+resource "aws_s3_bucket_object" "webpage-file-upload" {
+  for_each = fileset("../../s3-static-site/", "**/*.html")
+
   bucket = aws_s3_bucket.website-bucket.id
-  key = "index.html"
-  source = "../../s3-static-site/index.html"
-  etag = filebase64sha256("../../s3-static-site/index.html")
+  key = each.value
+  source = "../../s3-static-site/${each.value}"
+  etag = filebase64sha256("../../s3-static-site/${each.value}")
 
   content_type = "text/html"
 }

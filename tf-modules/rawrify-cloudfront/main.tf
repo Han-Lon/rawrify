@@ -4,6 +4,7 @@ resource "aws_cloudfront_distribution" "rawrify-cloudfront-distribution" {
   comment             = "Rawrify distribution for ${var.environment}"
   default_root_object = "index.html"
   aliases             = [var.alternate_domain_name]
+
   default_cache_behavior {
     allowed_methods        = ["GET", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
@@ -77,6 +78,7 @@ resource "aws_cloudfront_distribution" "rawrify-cloudfront-distribution" {
     cloudfront_default_certificate = false
     acm_certificate_arn            = var.alternate_domain_certificate
     ssl_support_method             = "sni-only"
+    minimum_protocol_version = ""
   }
 
   price_class = "PriceClass_100"
