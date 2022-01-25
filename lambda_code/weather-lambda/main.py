@@ -8,6 +8,7 @@ import os
 # Easy way to get latitude/longitude quickly https://developers.google.com/maps/documentation/geocoding/overview
 
 
+# Entrypoint for Lambda, start of code execution (after imports)
 def lambda_handler(event, context):
     print(event) if os.getenv("ENV", None) == "dev" else None
 

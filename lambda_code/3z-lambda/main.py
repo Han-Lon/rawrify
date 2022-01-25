@@ -5,6 +5,7 @@
 import os
 
 
+# Entrypoint for Lambda, start of code execution (after imports)
 def lambda_handler(event, context):
     print(event) if os.getenv("ENV", None) == "dev" else None
 
