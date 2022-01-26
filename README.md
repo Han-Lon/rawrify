@@ -9,7 +9,7 @@
                                      |___/
     #######################################
 
-# Rawrify (Work-In-Progress)
+# Rawrify
 ### An ultra-lightweight general utility API
 ### Created and maintained by @Han-Lon
 
