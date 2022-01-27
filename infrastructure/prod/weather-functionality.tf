@@ -15,7 +15,7 @@ module "weather-lambda" {
 
 
   api_execution_arn = module.rawrify-api-gateway.api_execution_arn
-  environment = "dev"  # TODO change this to prod
+  environment = "prod"
   function_name = "weather-functionality"
   input_path = "../../lambda_code/weather-lambda/main.py"
   output_path = "../../lambda_archives/weather-functionality.zip"

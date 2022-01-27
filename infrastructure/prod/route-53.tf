@@ -26,5 +26,3 @@ resource "aws_route53_record" "cloudfront-ipv6-record" {
     evaluate_target_health = false
   }
 }
-
-# TODO add user-agent record

@@ -17,7 +17,7 @@ module "base64-lambda" {
 
 
   api_execution_arn = module.rawrify-api-gateway.api_execution_arn
-  environment = "dev"  # TODO change this to prod
+  environment = "prod"
   function_name = "base64-functionality"
   input_path = "../../lambda_code/base64-lambda/main.py"
   output_path = "../../lambda_archives/base64-functionality.zip"

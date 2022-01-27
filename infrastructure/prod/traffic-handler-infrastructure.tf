@@ -17,7 +17,7 @@ module "rawrify-api-gateway" {
 
   api_name = "rawrify-basic-functionality-prod-api"
   burst_limit = 1000
-  rate_limit = 1000
+  rate_limit = 250
   environment = "prod"
   custom_domain_names = ["user-agent.rawrify.com"]
   custom_domain_certificate = module.rawrify-user-agent-certificate.certificate_arn
