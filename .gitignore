@@ -10,6 +10,7 @@ env/
 # Ignore the example docs
 docs/*.py
 *.txt
+!*robots.txt
 
 # Ignore TF Lock file-- not needed right now
 .terraform.lock.hcl
