@@ -77,6 +77,17 @@ resource "aws_s3_bucket_object" "webpage-file-upload" {
   content_type = "text/html"
 }
 
+# Upload the robots.txt file
+resource "aws_s3_bucket_object" "robots-file-upload" {
+
+  bucket = aws_s3_bucket.website-bucket.id
+  key = "robots.txt"
+  source = "../../s3-static-site/robots.txt"
+  etag = filebase64sha256("../../s3-static-site/robots.txt")
+
+  content_type = "text/html"
+}
+
 resource "aws_s3_bucket_policy" "website-bucket-policy-attach" {
   bucket = aws_s3_bucket.website-bucket.id
   policy = data.aws_iam_policy_document.website-bucket-policy.json
