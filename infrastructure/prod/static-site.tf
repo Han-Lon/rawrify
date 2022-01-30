@@ -88,6 +88,17 @@ resource "aws_s3_bucket_object" "robots-file-upload" {
   content_type = "text/html"
 }
 
+# Upload the favicon.ico file
+resource "aws_s3_bucket_object" "favicon-file-upload" {
+
+  bucket = aws_s3_bucket.website-bucket.id
+  key = "favicon.ico"
+  source = "../../s3-static-site/favicon.ico"
+  etag = filebase64sha256("../../s3-static-site/favicon.ico")
+
+  content_type = "image/x-icon"
+}
+
 resource "aws_s3_bucket_policy" "website-bucket-policy-attach" {
   bucket = aws_s3_bucket.website-bucket.id
   policy = data.aws_iam_policy_document.website-bucket-policy.json
