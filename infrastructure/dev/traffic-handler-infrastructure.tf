@@ -65,5 +65,19 @@ module "cloudfront-distribution" {
       path_pattern = "/base64"
       target_origin_id = "rawrify-api-origin"
       enable_query_string = true
+    },
+    {
+      allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/encrypt"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = false
+    },
+    {
+      allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/decrypt"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = false
     }]
 }
