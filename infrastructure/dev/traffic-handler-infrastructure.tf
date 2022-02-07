@@ -51,6 +51,17 @@ module "cloudfront-distribution" {
       path_pattern = "/ip"
       target_origin_id = "rawrify-api-origin"
       enable_query_string = false
+      headers = null
+    },
+    {
+      allowed_methods = ["GET", "HEAD"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/location"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = true
+      headers = ["CloudFront-Viewer-Country", "CloudFront-Viewer-Country-Name",
+      "CloudFront-Viewer-Latitude", "CloudFront-Viewer-Longitude",
+      "CloudFront-Viewer-City"]
     },
     {
       allowed_methods = ["GET", "HEAD"]
@@ -58,6 +69,7 @@ module "cloudfront-distribution" {
       path_pattern = "/temperature"
       target_origin_id = "rawrify-api-origin"
       enable_query_string = true
+      headers = null
     },
     {
       allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
@@ -65,6 +77,7 @@ module "cloudfront-distribution" {
       path_pattern = "/base64"
       target_origin_id = "rawrify-api-origin"
       enable_query_string = true
+      headers = null
     },
     {
       allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
@@ -72,6 +85,7 @@ module "cloudfront-distribution" {
       path_pattern = "/encrypt"
       target_origin_id = "rawrify-api-origin"
       enable_query_string = false
+      headers = null
     },
     {
       allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
@@ -79,5 +93,6 @@ module "cloudfront-distribution" {
       path_pattern = "/decrypt"
       target_origin_id = "rawrify-api-origin"
       enable_query_string = false
+      headers = null
     }]
 }

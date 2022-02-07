@@ -7,6 +7,8 @@ from requests_toolbelt.multipart import decoder
 from cryptography.fernet import Fernet
 
 
+# TODO this handles symmetric encryption. Consider implementing asymmetric encryption as well.
+
 # Encrypt using Python's Fernet library (within cryptography)
 def encrypt(key, body):
     try:
@@ -25,9 +27,20 @@ def decrypt(key, body):
         f = Fernet(key)
     except Exception as e:
         return '{"ERROR": "Could not import key. Please ensure your key adheres to the 32-bit standard required by Python Fernet."}'
+
+# TODO troubleshoot why this try/except block isn't catching InvalidToken decryption messages
+    try:
+        decrypted_body = f.decrypt(body)
+    except Exception as e:
+        print(str(e))
+        if "InvalidToken" in str(e):
+            return '{"ERROR": "Could not decrypt encrypted message with this key. Check the key you provided and try again."}'
+        else:
+            raise
+
     return {'statusCode': 200,
             'headers': {'Content-Type': 'text/plain'},
-            'body': f.decrypt(body),
+            'body': decrypted_body,
             'isBase64Encoded': False}
 
 
