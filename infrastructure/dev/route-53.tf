@@ -26,3 +26,15 @@ resource "aws_route53_record" "cloudfront-ipv6-record" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_route53_record" "user-agent-record" {
+  zone_id = data.aws_route53_zone.rawrify-hosted-zone.zone_id
+  name = var.env == "prod" ? "user-agent.rawrify.com" : "user-agent.dev.rawrify.com"
+  type = "A"
+
+  alias {
+    evaluate_target_health = false
+    name = module.rawrify-api-gateway.domain_name
+    zone_id = module.rawrify-api-gateway.zone_id
+  }
+}
