@@ -26,7 +26,8 @@ def verify_success(route, url):
     resp = requests.get(url)
     resp_text = resp.text
     if "ERROR" in resp_text.upper():
-        raise ValueError(f"{route} check failed!")
+        print(f"Testing route {route} resulted in error message: {resp_text}")
+        raise ValueError("Check failed!")
     else:
         print(f"{route} check succeeded. Response was {resp_text}")
 
