@@ -8,7 +8,7 @@ import requests
 # Dict of routes to check
 routes = {
     "ipv4": "https://ipv4.rawrify.com/ip",
-    "ipv6": "https://ipv6.rawrify.com/ip",
+    # "ipv6": "https://ipv6.rawrify.com/ip", Can't test IPv6 because GitHub self-hosted runners don't support IPv6 at all https://github.com/actions/virtual-environments/issues/668
     "user-agent": "https://user-agent.rawrify.com/user-agent",
     "b64-encode": "https://www.rawrify.com/base64?encode=test",
     "b64-decode": "https://www.rawrify.com/base64?decode=dGVzdA==",
