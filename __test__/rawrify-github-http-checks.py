@@ -3,16 +3,21 @@
     as expected/weren't impacted by new features.
 """
 import requests
+import os
 
+if os.environ["branch"] == "prod":
+    rawrify_domain = "rawrify.com"
+else:
+    rawrify_domain = "dev.rawrify.com"
 
 # Dict of routes to check
 routes = {
-    "ipv4": "https://ipv4.rawrify.com/ip",
+    "ipv4": f"https://ipv4.{rawrify_domain}/ip",
     # "ipv6": "https://ipv6.rawrify.com/ip", Can't test IPv6 because GitHub self-hosted runners don't support IPv6 at all https://github.com/actions/virtual-environments/issues/668
-    "user-agent": "https://user-agent.rawrify.com/user-agent",
-    "b64-encode": "https://www.rawrify.com/base64?encode=test",
-    "b64-decode": "https://www.rawrify.com/base64?decode=dGVzdA==",
-    "temperature": "https://www.rawrify.com/temperature?latitude=38.8894&longitude=-77.0352"
+    "user-agent": f"https://user-agent.{rawrify_domain}/user-agent",
+    "b64-encode": f"https://www.{rawrify_domain}/base64?encode=test",
+    "b64-decode": f"https://www.{rawrify_domain}/base64?decode=dGVzdA==",
+    "temperature": f"https://www.{rawrify_domain}/temperature?latitude=38.8894&longitude=-77.0352"
 }
 
 
