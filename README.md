@@ -29,8 +29,9 @@ The rest of this README are for the infrastructure and app code that support Raw
 ## Feature Roadmap
 - v0.3 (TBD)
   - Steganographic functions
-- v0.2 (TBD)
-  - Basic encryption/decryption (maybe), will function similar to Base64 encoding but with an encryption key
+  - Asymmetric encryption/decryption
+- v0.2
+  - Symmetric encryption/decryption
   - Use [CloudFront custom headers](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-cloudfront-headers.html) to add more client-relevant information 
   - Better error handling
   - Fix issue with etag in Terraform code causing unnecessary changes for every apply

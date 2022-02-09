@@ -8,7 +8,7 @@
   The basic encryption component of Rawrify. Handles encryption of files or strings given a basic private key.
 
   Do not use GET requests to work with this-- GET requests pass all parameters in the query string, which means
-  they're easily intercepted and interpreted by all intermediary listeners, malicious or not.
+  they're easily intercepted and interpreted by all intermediary listeners, malicious or not. Only POST
 */
 
 module "encryption-lambda" {
