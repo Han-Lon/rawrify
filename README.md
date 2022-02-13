@@ -9,6 +9,8 @@
                                      |___/
     #######################################
 
+![rawrify-checks](https://github.com/Han-Lon/rawrify/actions/workflows/rawrify-checks.yml/badge.svg?branch=0.2-dev)
+
 # Rawrify
 ### An ultra-lightweight general utility API
 ### Created and maintained by @Han-Lon

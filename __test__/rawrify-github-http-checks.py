@@ -14,7 +14,7 @@ else:
 routes = {
     "ipv4": f"https://ipv4.{rawrify_domain}/ip",
     # "ipv6": "https://ipv6.rawrify.com/ip", Can't test IPv6 because GitHub self-hosted runners don't support IPv6 at all https://github.com/actions/virtual-environments/issues/668
-    "user-agent": f"https://user-agent.{rawrify_domain}/user-agent2",
+    "user-agent": f"https://user-agent.{rawrify_domain}/user-agent",
     "b64-encode": f"https://www.{rawrify_domain}/base64?encode=test",
     "b64-decode": f"https://www.{rawrify_domain}/base64?decode=dGVzdA==",
     "temperature": f"https://www.{rawrify_domain}/temperature?latitude=38.8894&longitude=-77.0352"
