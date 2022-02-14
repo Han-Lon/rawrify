@@ -8,12 +8,12 @@
 import os
 import base64
 from requests_toolbelt.multipart import decoder
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
 
 
 # TODO this handles symmetric encryption. Consider implementing asymmetric encryption as well.
 
-# Encrypt using Python's Fernet library (within cryptography)
+# Encrypt using Fernet functionality within Python Cryptography
 def encrypt(key, body):
     try:
         f = Fernet(key)
@@ -25,22 +25,17 @@ def encrypt(key, body):
             'isBase64Encoded': False}
 
 
-# Decrypt using Python's Fernet library (within cryptography)
+# Decrypt using Fernet functionality within Python Cryptography
 def decrypt(key, body):
     try:
         f = Fernet(key)
     except Exception as e:
         return '{"ERROR": "Could not import key. Please ensure your key adheres to the 32-bit standard required by Python Fernet."}'
 
-# TODO troubleshoot why this try/except block isn't catching InvalidToken decryption messages
     try:
         decrypted_body = f.decrypt(body)
-    except Exception as e:
-        print(str(e))
-        if "InvalidToken" in str(e):
+    except InvalidToken as e:
             return '{"ERROR": "Could not decrypt encrypted message with this key. Check the key you provided and try again."}'
-        else:
-            raise
 
     return {'statusCode': 200,
             'headers': {'Content-Type': 'text/plain'},
