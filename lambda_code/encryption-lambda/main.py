@@ -1,9 +1,5 @@
 """
     Lambda for handling basic encryption from API Gateway
-
-    TODO remove the below statement from here and add to doc
-    KEY=`openssl rand -base64 32`
-    curl -X POST -F "key=$KEY" -F "body=TEST" https://www.dev.rawrify.com/encrypt
 """
 import os
 import base64
