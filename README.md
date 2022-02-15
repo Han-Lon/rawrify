@@ -37,6 +37,7 @@ The rest of this README are for the infrastructure and app code that support Raw
   - Use [CloudFront custom headers](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-cloudfront-headers.html) to add more client-relevant information 
   - Better error handling
   - Fix issue with etag in Terraform code causing unnecessary changes for every apply
+  - Add explicit Route53 routes for ipv4 and ipv6 subdomains
 - v0.1
   - IPv4, IPv6, and user agent lookup
   - Base64 encoding/decoding
