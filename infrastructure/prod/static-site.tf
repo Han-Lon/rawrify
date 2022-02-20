@@ -45,11 +45,12 @@ data "aws_iam_policy_document" "website-bucket-policy" {
 
 # Static website S3 bucket
 resource "aws_s3_bucket" "website-bucket" {
-  bucket = "rawrify-${data.aws_caller_identity.default-provider-account-id.account_id}-website-content"
+  bucket = var.env == "prod" ? "rawrify-${data.aws_caller_identity.default-provider-account-id.account_id}-website-content" : "rawrify-dev-website-bucket"
   acl = "private"
 
   tags = {
     Name = "rawrify-website-bucket"
+    Environment = var.env
   }
 
   # We don't need to enable static website hosting on the S3 bucket itself since we'll be serving content via CloudFront
@@ -72,18 +73,17 @@ resource "aws_s3_bucket_object" "webpage-file-upload" {
   bucket = aws_s3_bucket.website-bucket.id
   key = each.value
   source = "../../s3-static-site/${each.value}"
-  etag = filebase64sha256("../../s3-static-site/${each.value}")
+  etag = filemd5("../../s3-static-site/${each.value}")
 
   content_type = "text/html"
 }
 
 # Upload the robots.txt file
 resource "aws_s3_bucket_object" "robots-file-upload" {
-
   bucket = aws_s3_bucket.website-bucket.id
   key = "robots.txt"
-  source = "../../s3-static-site/robots.txt"
-  etag = filebase64sha256("../../s3-static-site/robots.txt")
+  source = var.env == "prod" ? "../../s3-static-site/robots.txt" : "../../s3-static-site/dev/robots.txt"
+  etag = var.env == "prod" ? filemd5("../../s3-static-site/robots.txt") : filemd5("../../s3-static-site/dev/robots.txt")
 
   content_type = "text/html"
 }
@@ -94,9 +94,7 @@ resource "aws_s3_bucket_object" "favicon-file-upload" {
   bucket = aws_s3_bucket.website-bucket.id
   key = "favicon.ico"
   source = "../../s3-static-site/favicon.ico"
-  etag = filebase64sha256("../../s3-static-site/favicon.ico")
-
-  content_type = "image/x-icon"
+  etag = filemd5("../../s3-static-site/favicon.ico")
 }
 
 resource "aws_s3_bucket_policy" "website-bucket-policy-attach" {

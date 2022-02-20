@@ -17,10 +17,10 @@ module "_3z-lambda" {
 
 
   api_execution_arn = module.rawrify-api-gateway.api_execution_arn
-  environment = "prod"
+  environment = var.env
   function_name = "3z-functionality"
   input_path = "../../lambda_code/3z-lambda/main.py"
-  output_path = "../../lambda_archives/3z-functionality.zip"
+  output_path = "../../lambda_archives/${var.env}/3z-functionality.zip"
   enable_basic_execution_role = true
 }
 

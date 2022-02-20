@@ -17,10 +17,10 @@ module "base64-lambda" {
 
 
   api_execution_arn = module.rawrify-api-gateway.api_execution_arn
-  environment = "prod"
+  environment = var.env
   function_name = "base64-functionality"
   input_path = "../../lambda_code/base64-lambda/main.py"
-  output_path = "../../lambda_archives/base64-functionality.zip"
+  output_path = "../../lambda_archives/${var.env}/base64-functionality.zip"
   enable_basic_execution_role = true
   lambda_layer_arns = [aws_lambda_layer_version.requests-toolbelt-layer.arn]
 }
@@ -36,7 +36,7 @@ module "base64-integration-get" {
 }
 
 data "archive_file" "requests-toolbelt-layer-zip" {
-  output_path = "../../lambda_archives/requests-toolbelt-layer.zip"
+  output_path = "../../lambda_archives/${var.env}/requests-toolbelt-layer.zip"
   type = "zip"
   source_dir = "../../lambda_code/requests-toolbelt-layer/"
 }

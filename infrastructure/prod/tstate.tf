@@ -13,5 +13,6 @@ terraform {
     bucket = "rawrify-state-bucket"
     key = "rawrify-prod-state.tstate"
     region = "us-east-2"
+    profile = "rawrify-prod"
   }
 }

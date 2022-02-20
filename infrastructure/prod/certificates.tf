@@ -11,8 +11,8 @@
 module "rawrify-user-agent-certificate" {
   source = "../../tf-modules/rawrify-certificate"
 
-  cert_domain_name = "user-agent.rawrify.com"
-  route53_domain_name = "rawrify.com"
+  cert_domain_name = var.env == "prod" ? "user-agent.rawrify.com" : "user-agent.dev.rawrify.com"
+  route53_domain_name = data.aws_route53_zone.rawrify-hosted-zone.name
 }
 
 # Why the extra certificate in us-east-1? Because CloudFront can only use certs in us-east-1
@@ -22,6 +22,6 @@ module "rawrify-wildcard-certificate" {
     aws = aws.aws-us-east-1
   }
 
-  cert_domain_name = "*.rawrify.com"
-  route53_domain_name = "rawrify.com"
+  cert_domain_name = var.env == "prod" ? "*.rawrify.com" : "*.dev.rawrify.com"
+  route53_domain_name = data.aws_route53_zone.rawrify-hosted-zone.name
 }

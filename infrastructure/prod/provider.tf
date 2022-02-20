@@ -10,12 +10,16 @@
 
 provider "aws" {
   region = "us-east-2"
+  profile = var.env == "prod" ? "rawrify-prod" : "rawrify-dev"
+  allowed_account_ids = var.env == "prod" ? [var.prod_account_id] : [var.dev_account_id]
 }
 
 # Needed because of some bullcrap where Route53 A record aliases ONLY work if your Cloudfront distribution is in us-east-1 fml
 provider "aws" {
   alias = "aws-us-east-1"
   region = "us-east-1"
+  profile = var.env == "prod" ? "rawrify-prod" : "rawrify-dev"
+  allowed_account_ids = var.env == "prod" ? [var.prod_account_id]: [var.dev_account_id]
 }
 
 # Needed to reference AWS account ID in the default aws provider block

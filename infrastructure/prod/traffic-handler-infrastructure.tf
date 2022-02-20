@@ -15,11 +15,11 @@
 module "rawrify-api-gateway" {
   source = "../../tf-modules/rawrify-api-gateway"
 
-  api_name = "rawrify-basic-functionality-prod-api"
+  api_name = "rawrify-basic-functionality-dev-api"
   burst_limit = 1000
   rate_limit = 250
-  environment = "prod"
-  custom_domain_names = ["user-agent.rawrify.com"]
+  environment = var.env
+  custom_domain_names = var.env == "prod" ? ["user-agent.rawrify.com"] : ["user-agent.dev.rawrify.com"]
   custom_domain_certificate = module.rawrify-user-agent-certificate.certificate_arn
   custom_domain_name_mappings = [""]
 }
@@ -27,10 +27,10 @@ module "rawrify-api-gateway" {
 module "cloudfront-distribution" {
   source = "../../tf-modules/rawrify-cloudfront"
 
-  environment = "prod"
+  environment = var.env
   origin_domain_name = trimprefix(trimsuffix(module.rawrify-api-gateway.invoke_url, "/"), "https://")
   alternate_domain_certificate = module.rawrify-wildcard-certificate.certificate_arn
-  alternate_domain_name = "*.rawrify.com"
+  alternate_domain_name = var.env == "prod" ? "*.rawrify.com" : "*.dev.rawrify.com"
   origins = [
     {
       domain_name : trimprefix(trimsuffix(module.rawrify-api-gateway.invoke_url, "/"), "https://")
@@ -51,6 +51,17 @@ module "cloudfront-distribution" {
       path_pattern = "/ip"
       target_origin_id = "rawrify-api-origin"
       enable_query_string = false
+      headers = null
+    },
+    {
+      allowed_methods = ["GET", "HEAD"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/location"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = true
+      headers = ["CloudFront-Viewer-Country", "CloudFront-Viewer-Country-Name",
+      "CloudFront-Viewer-Latitude", "CloudFront-Viewer-Longitude",
+      "CloudFront-Viewer-City"]
     },
     {
       allowed_methods = ["GET", "HEAD"]
@@ -58,6 +69,7 @@ module "cloudfront-distribution" {
       path_pattern = "/temperature"
       target_origin_id = "rawrify-api-origin"
       enable_query_string = true
+      headers = null
     },
     {
       allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
@@ -65,5 +77,22 @@ module "cloudfront-distribution" {
       path_pattern = "/base64"
       target_origin_id = "rawrify-api-origin"
       enable_query_string = true
+      headers = null
+    },
+    {
+      allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/encrypt"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = false
+      headers = null
+    },
+    {
+      allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/decrypt"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = false
+      headers = null
     }]
 }
