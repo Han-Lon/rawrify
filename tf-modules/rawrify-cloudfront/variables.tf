@@ -36,5 +36,6 @@ variable "ordered_caches" {
     path_pattern = string
     target_origin_id = string
     enable_query_string = bool
+    headers = list(string)
   }))
 }

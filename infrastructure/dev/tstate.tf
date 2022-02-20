@@ -11,7 +11,7 @@
 terraform {
   backend "s3" {
     bucket = "rawrify-state-bucket"
-    key = "rawrify-prod-state.tstate"
+    key = "rawrify-dev-state.tstate"
     region = "us-east-2"
     profile = "rawrify-prod"
   }

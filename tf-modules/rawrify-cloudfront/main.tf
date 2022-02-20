@@ -38,6 +38,7 @@ resource "aws_cloudfront_distribution" "rawrify-cloudfront-distribution" {
         cookies {
           forward = "none"
         }
+        headers = ordered_cache_behavior.value["headers"]
       }
     }
   }
