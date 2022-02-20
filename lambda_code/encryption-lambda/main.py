@@ -28,6 +28,7 @@ def decrypt(key, body):
     except Exception as e:
         return '{"ERROR": "Could not import key. Please ensure your key adheres to the 32-bit standard required by Python Fernet."}'
 
+    # Catch block here in case decryption key is invalid/wrong key
     try:
         decrypted_body = f.decrypt(body)
     except InvalidToken as e:
