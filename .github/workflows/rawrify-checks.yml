@@ -9,6 +9,7 @@ on:
     branches:
       - main
       - '*-dev'
+      - '0.2-hotfix'  # TODO remove, just testing
   pull_request:
     branches:
       - main
