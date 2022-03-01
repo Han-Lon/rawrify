@@ -39,14 +39,12 @@ expected_failures = {
 
 # Verify route succeeds
 def verify_success(route, url):
-    print(route.split("@")[1])
     if route.split("@")[1] == "GET":
         resp = requests.get(url)
     elif route.split("@")[1] == "POST":
         resp = requests.post(url[0], url[1])
     else:
         raise ValueError(f"Expected either GET or POST secondary option for {route}.")
-    resp = requests.get(url)
     resp_text = resp.text
     if "ERROR" in resp_text.upper() or resp.status_code > 399:
         print(f"Testing route {route} resulted in error message: {resp_text if 'location' not in route else '*****'}")
