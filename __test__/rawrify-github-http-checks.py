@@ -39,9 +39,10 @@ expected_failures = {
 
 # Verify route succeeds
 def verify_success(route, url):
-    if "GET" in route.split("@")[1]:
+    print(route.split("@")[1])
+    if route.split("@")[1] == "GET":
         resp = requests.get(url)
-    elif "POST" in route.split("@")[1]:
+    elif route.split("@")[1] == "POST":
         resp = requests.post(url[0], url[1])
     else:
         raise ValueError(f"Expected either GET or POST secondary option for {route}.")
@@ -56,9 +57,9 @@ def verify_success(route, url):
 
 # Verify expected route failures
 def verify_failure(route, url):
-    if "GET" in route.split("@")[1]:
+    if route.split("@")[1] == "GET":
         resp = requests.get(url)
-    elif "POST" in route.split("@")[1]:
+    elif route.split("@")[1] == "POST":
         resp = requests.post(url[0], url[1])
     else:
         raise ValueError(f"Expected either GET or POST secondary option for {route}.")
