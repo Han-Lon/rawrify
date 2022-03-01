@@ -64,7 +64,8 @@ def process_request(decoded_form, path):
 def lambda_handler(event, context):
     print(event) if os.getenv("ENV", None) == "dev" else None
 
-    if event["headers"]["content-type"] != "multipart/form-data":
+    # Handle incorrect MIME type submissions -- only accept multipart/form-data
+    if "multipart/form-data" not in event["headers"]["content-type"]:
         return f'{{"ERROR": "Please only supply multipart/form-data MIME type for payload. Received {event["headers"]["content-type"]}"}}'
 
     if event["rawPath"] == "/encrypt":

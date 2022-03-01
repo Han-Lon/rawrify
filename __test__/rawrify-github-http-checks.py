@@ -58,7 +58,7 @@ def verify_failure(route, url):
     if route.split("@")[1] == "GET":
         resp = requests.get(url)
     elif route.split("@")[1] == "POST":
-        resp = requests.post(url[0], url[1])
+        resp = requests.post(url[0], files=(url[1]))
     else:
         raise ValueError(f"Expected either GET or POST secondary option for {route}.")
     resp_text = resp.text
