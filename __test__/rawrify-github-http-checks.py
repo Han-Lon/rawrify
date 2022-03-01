@@ -26,8 +26,8 @@ routes = {
     "location-city@GET": f"https://www.{rawrify_domain}/location?city",
     "location-coords@GET": f"https://www.{rawrify_domain}/location?coordinates",
     "location-full@GET": f"https://www.{rawrify_domain}/location?full",
-    "encryption@POST": [f"https://www.{rawrify_domain}/encrypt", {"KEY": os.environ["ENCRYPTION_KEY"], "BODY": "Test message from CICD"}],
-    "decryption@POST": [f"https://www.{rawrify_domain}/decrypt", {"KEY": os.environ["ENCRYPTION_KEY"], "BODY": "gAAAAABiHZeFlMqocfYbNJoRI5bhDQN0QoDfQdDJDPRQM0XUVOdHqMr0v2PydOf8PY9KDDDHpMyNOg_5ouodHDMgek3jCS3MbLnywfXaco7C-Rwau1eE_SU="}]
+    "encryption@POST": [f"https://www.{rawrify_domain}/encrypt", {"key": os.environ["ENCRYPTION_KEY"], "body": "Test message from CICD"}],
+    "decryption@POST": [f"https://www.{rawrify_domain}/decrypt", {"key": os.environ["ENCRYPTION_KEY"], "body": "gAAAAABiHZeFlMqocfYbNJoRI5bhDQN0QoDfQdDJDPRQM0XUVOdHqMr0v2PydOf8PY9KDDDHpMyNOg_5ouodHDMgek3jCS3MbLnywfXaco7C-Rwau1eE_SU="}]
 }
 
 expected_failures = {
