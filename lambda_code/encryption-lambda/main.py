@@ -64,6 +64,9 @@ def process_request(decoded_form, path):
 def lambda_handler(event, context):
     print(event) if os.getenv("ENV", None) == "dev" else None
 
+    if event["headers"]["content-type"] != "multipart/form-data":
+        return f'{"ERROR": "Please only supply multipart/form-data MIME type for payload. Received {event["headers"]["content-type"]}"}'
+
     if event["rawPath"] == "/encrypt":
         # Read the POST form from the user's request
         decoded_form = decoder.MultipartDecoder(base64.b64decode(event["body"]),
