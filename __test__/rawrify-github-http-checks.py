@@ -26,7 +26,7 @@ routes = {
     "location-city@GET": f"https://www.{rawrify_domain}/location?city",
     "location-coords@GET": f"https://www.{rawrify_domain}/location?coordinates",
     "location-full@GET": f"https://www.{rawrify_domain}/location?full",
-    "encryption@POST": [f"https://www.{rawrify_domain}/encrypt", {"KEY": os.environ["ENCRYPTION_KEY"], "MESSAGE": "Test message from CICD"}]
+    "encryption@POST": [f"https://www.{rawrify_domain}/encrypt", {"KEY": os.environ["ENCRYPTION_KEY"], "MESSAGE": "Test message from CICD"}],
     "decryption@POST": [f"https://www.{rawrify_domain}/decrypt", {"KEY": os.environ["ENCRYPTION_KEY"], "MESSAGE": "gAAAAABiHZeFlMqocfYbNJoRI5bhDQN0QoDfQdDJDPRQM0XUVOdHqMr0v2PydOf8PY9KDDDHpMyNOg_5ouodHDMgek3jCS3MbLnywfXaco7C-Rwau1eE_SU="}]
 }
 
