@@ -11,41 +11,61 @@ else:
     rawrify_domain = "dev.rawrify.com"
 
 # Dict of routes to check
+# SYNTAX
+# GET requests: "name@GET": "url"
+# POST requests: "name@POST": ["url", "payload"]
 routes = {
-    "ipv4": f"https://ipv4.{rawrify_domain}/ip",
+    "ipv4@GET": f"https://ipv4.{rawrify_domain}/ip",
     # "ipv6": "https://ipv6.rawrify.com/ip", Can't test IPv6 because GitHub self-hosted runners don't support IPv6 at all https://github.com/actions/virtual-environments/issues/668
-    "user-agent": f"https://user-agent.{rawrify_domain}/user-agent",
-    "b64-encode": f"https://www.{rawrify_domain}/base64?encode=test",
-    "b64-decode": f"https://www.{rawrify_domain}/base64?decode=dGVzdA==",
-    "temperature": f"https://www.{rawrify_domain}/temperature?latitude=38.8894&longitude=-77.0352"
+    "user-agent@GET": f"https://user-agent.{rawrify_domain}/user-agent",
+    "b64-encode@GET": f"https://www.{rawrify_domain}/base64?encode=test",
+    "b64-decode@GET": f"https://www.{rawrify_domain}/base64?decode=dGVzdA==",
+    "temperature@GET": f"https://www.{rawrify_domain}/temperature?latitude=38.8894&longitude=-77.0352",
+    "location-country-code@GET": f"https://www.{rawrify_domain}/location?country",
+    "location-country-name@GET": f"https://www.{rawrify_domain}/location?country-name",
+    "location-city@GET": f"https://www.{rawrify_domain}/location?city",
+    "location-coords@GET": f"https://www.{rawrify_domain}/location?coordinates",
+    "location-full@GET": f"https://www.{rawrify_domain}/location?full",
+    "encryption@POST": [f"https://www.{rawrify_domain}/encrypt", {"key": os.environ["ENCRYPTION_KEY"], "body": "Test message from CICD"}],
+    "decryption@POST": [f"https://www.{rawrify_domain}/decrypt", {"key": os.environ["ENCRYPTION_KEY"], "body": "gAAAAABiHZeFlMqocfYbNJoRI5bhDQN0QoDfQdDJDPRQM0XUVOdHqMr0v2PydOf8PY9KDDDHpMyNOg_5ouodHDMgek3jCS3MbLnywfXaco7C-Rwau1eE_SU="}]
 }
 
 expected_failures = {
-    "b64-no-query-strings": f"https://www.{rawrify_domain}/base64",
-    "b64-decode-not-base64-encoded": f"https://www.{rawrify_domain}/base64?decode=fail",
-    "temperature-no-query-string": f"https://www.{rawrify_domain}/temperature"
+    "b64-no-query-strings@GET": f"https://www.{rawrify_domain}/base64",
+    "b64-decode-not-base64-encoded@GET": f"https://www.{rawrify_domain}/base64?decode=fail",
+    "temperature-no-query-string@GET": f"https://www.{rawrify_domain}/temperature"
 }
 
 
 # Verify route succeeds
 def verify_success(route, url):
-    resp = requests.get(url)
+    if route.split("@")[1] == "GET":
+        resp = requests.get(url)
+    elif route.split("@")[1] == "POST":
+        resp = requests.post(url[0], files=(url[1]))  # Use files argument to force multipart/form-data instead of application/x-www-form-urlencoded
+    else:
+        raise ValueError(f"Expected either GET or POST secondary option for {route}.")
     resp_text = resp.text
     if "ERROR" in resp_text.upper() or resp.status_code > 399:
-        print(f"Testing route {route} resulted in error message: {resp_text}")
+        print(f"Testing route {route} resulted in error message: {resp_text if 'location' not in route else '*****'}")
         raise ValueError("Check failed!")
     else:
-        print(f"{route} check succeeded. Response was {resp_text}")
+        print(f"{route} check succeeded. Response was {resp_text if 'location' not in route else '*****'}")
 
 
 # Verify expected route failures
 def verify_failure(route, url):
-    resp = requests.get(url)
+    if route.split("@")[1] == "GET":
+        resp = requests.get(url)
+    elif route.split("@")[1] == "POST":
+        resp = requests.post(url[0], files=(url[1]))
+    else:
+        raise ValueError(f"Expected either GET or POST secondary option for {route}.")
     resp_text = resp.text
     if "ERROR" not in resp_text.upper() or resp.status_code < 399:
-        print(f"Expected failure {route} resulted in error message: {resp_text}")
+        print(f"Expected failure {route} resulted in error message: {resp_text if 'location' not in route else '*****'}")
     else:
-        print(f"Expected failure {route} did not result in error message! Message: {resp_text}")
+        print(f"Expected failure {route} did not result in error message! Message: {resp_text if 'location' not in route else '*****'}")
         raise ValueError("Check failed!")
 
 
@@ -53,5 +73,7 @@ if __name__ == "__main__":
     print("Beginning checks...")
     for route, url in routes.items():
         verify_success(route, url)
+    for route, url in expected_failures.items():
+        verify_failure(route, url)
     print("Checks finished.")
 

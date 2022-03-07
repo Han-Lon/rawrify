@@ -16,7 +16,7 @@ def encrypt(key, body):
     except Exception as e:
         return '{"ERROR": "Could not import key. Please ensure your key adheres to the 32-bit standard required by Python Fernet."}'
     return {'statusCode': 200,
-            'headers': {'Content-Type': 'text/plain'},
+            'headers': {'Content-Type': 'application/octet-stream'},
             'body': f.encrypt(body),
             'isBase64Encoded': False}
 
@@ -35,9 +35,9 @@ def decrypt(key, body):
             return '{"ERROR": "Could not decrypt encrypted message with this key. Check the key you provided and try again."}'
 
     return {'statusCode': 200,
-            'headers': {'Content-Type': 'text/plain'},
-            'body': decrypted_body,
-            'isBase64Encoded': False}
+            'headers': {'Content-Type': 'application/octet-stream'},
+            'body': base64.b64encode(decrypted_body),
+            'isBase64Encoded': True}
 
 
 # Process encryption requests
@@ -63,6 +63,10 @@ def process_request(decoded_form, path):
 # Entrypoint for Lambda, start of code execution (after imports)
 def lambda_handler(event, context):
     print(event) if os.getenv("ENV", None) == "dev" else None
+
+    # Handle incorrect MIME type submissions -- only accept multipart/form-data
+    if "multipart/form-data" not in event["headers"]["content-type"]:
+        return f'{{"ERROR": "Please only supply multipart/form-data MIME type for payload. Received {event["headers"]["content-type"]}"}}'
 
     if event["rawPath"] == "/encrypt":
         # Read the POST form from the user's request
