@@ -44,3 +44,24 @@ resource "aws_lambda_layer_version" "cryptography-layer" {
   compatible_runtimes = ["python3.8"]
   source_code_hash = data.archive_file.cryptography-layer-zip.output_base64sha256
 }
+
+module "asymmetric-encryption-lambda" {
+  source = "../../tf-modules/rawrify-lambda"
+
+  api_execution_arn = module.rawrify-api-gateway.api_execution_arn
+  environment = var.env
+  function_name = "asymmetric-encryption-functionality"
+  input_path = "../../lambda_code/asymmetric-encryption-lambda/main.py"
+  output_path = "../../lambda_archives/${var.env}/asymmetric-encryption-functionality.zip"
+  enable_basic_execution_role = true
+  lambda_layer_arns = [aws_lambda_layer_version.requests-toolbelt-layer.arn, aws_lambda_layer_version.cryptography-layer.arn]
+}
+
+module "asymmetric-encryption-integration" {
+  source = "../../tf-modules/rawrify-api-gateway-integration"
+
+  api_id = module.rawrify-api-gateway.api_id
+  integration_method = "POST"
+  integration_uri = module.asymmetric-encryption-lambda.invoke_arn
+  route_keys = ["POST /asymmetric-encrypt", "POST /asymmetric-decrypt"]
+}
