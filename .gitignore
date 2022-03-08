@@ -37,3 +37,7 @@ lambda_code/requests-toolbelt-layer/python/*
 !lambda_code/cryptography-layer/python
 lambda_code/cryptography-layer/python/*
 !lambda_code/cryptography-layer/python/README.md
+
+# Don't push steganography Python library-- same reason as above
+!lambda_code/steganography-layer/python
+lambda_code/steganography-layer/python/*

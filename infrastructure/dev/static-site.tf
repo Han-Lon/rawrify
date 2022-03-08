@@ -46,7 +46,6 @@ data "aws_iam_policy_document" "website-bucket-policy" {
 # Static website S3 bucket
 resource "aws_s3_bucket" "website-bucket" {
   bucket = var.env == "prod" ? "rawrify-${data.aws_caller_identity.default-provider-account-id.account_id}-website-content" : "rawrify-dev-website-bucket"
-  acl = "private"
 
   tags = {
     Name = "rawrify-website-bucket"
@@ -54,6 +53,11 @@ resource "aws_s3_bucket" "website-bucket" {
   }
 
   # We don't need to enable static website hosting on the S3 bucket itself since we'll be serving content via CloudFront
+}
+
+resource "aws_s3_bucket_acl" "website-bucket-private" {
+  bucket = aws_s3_bucket.website-bucket.id
+  acl = "private"
 }
 
 # Block public access -- we'll be serving website content via CloudFront
