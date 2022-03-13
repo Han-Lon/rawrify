@@ -12,6 +12,28 @@
 # LAMBDA LAYER SETUP #
 ######################
 
+module "steganography-lambda" {
+  source = "../../tf-modules/rawrify-lambda"
+
+  api_execution_arn = module.rawrify-api-gateway.api_execution_arn
+  environment = var.env
+  function_name = "steganography-functionality"
+  input_path = "../../lambda_code/steganography-lambda/main.py"
+  output_path = "../../lambda_archives/${var.env}/steganography-functionality.zip"
+  enable_basic_execution_role = true
+  lambda_layer_arns = [aws_lambda_layer_version.requests-toolbelt-layer.arn, aws_lambda_layer_version.cryptography-layer.arn,
+  aws_lambda_layer_version.steganography-layer.arn]
+}
+
+module "steganography-integration-get" {
+  source = "../../tf-modules/rawrify-api-gateway-integration"
+
+  api_id = module.rawrify-api-gateway.api_id
+  integration_method = "POST"
+  integration_uri = module.steganography-lambda.invoke_arn
+  route_keys = ["POST /steg-embed", "POST /steg-retrieve"]
+}
+
 # NOTE: Steganography also ships with Pillow. To avoid double-imports, just use steganography layer when Pillow is needed
 # Big reason why I'm doing this is Pillow is freaking huge (relatively speaking)
 data "archive_file" "steganography-layer-zip" {
@@ -38,7 +60,7 @@ resource "aws_s3_object" "stegano-code-upload" {
   bucket = aws_s3_bucket.rawrify-code-resources-bucket.id
   key = "steganography-layer/"
   source = data.archive_file.steganography-layer-zip.output_path
-  etag = data.archive_file.steganography-layer-zip.output_md5
+  source_hash = data.archive_file.steganography-layer-zip.output_base64sha256
   storage_class = "ONEZONE_IA"
 }
 
