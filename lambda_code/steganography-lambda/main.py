@@ -16,7 +16,7 @@ def stegano_embed(image, body, format="jpg"):
     except Exception as e:
         return '{"ERROR": "Could not convert image to bytes format. Please ensure your image file is valid."}'
     try:
-        secret = lsb.hide(bytes_image, body)
+        secret = lsb.hide(bytes_image, body.decode("utf-8"))
     except Exception as e:
         if "Not a RGB image" in str(e):
             return '{"ERROR": "Please ensure the color scheme of your uploaded image is RGB."}'
@@ -24,6 +24,7 @@ def stegano_embed(image, body, format="jpg"):
     try:
         secret_bytesIO = io.BytesIO()
         secret.save(secret_bytesIO, format=format)
+        secret_bytesIO.seek(0)
     except Exception as e:
         return '{"ERROR": "Could not fully process uploaded image file. Did you use a format other than jpg? If so, you must supply a \'format\' form field."}'
 
@@ -35,7 +36,7 @@ def stegano_embed(image, body, format="jpg"):
 
 # Reveal data from image file embedded using Least Significant Bit (LSB)
 def stegano_retrieve(image):
-    # TODO pick up from here
+    # TODO also create backup buckets for 3rd party library builds-- it's a PITA to rebuild on Arm instances and ship the code back every single time I switch branches
     try:
         bytes_image = io.BytesIO(image)
     except Exception as e:
@@ -45,8 +46,8 @@ def stegano_retrieve(image):
 
     return {'statusCode': 200,
             'headers': {'Content-Type': 'application/octet-stream'},
-            'body': base64.b64encode(retrieved),
-            'isBase64Encoded': True}
+            'body': retrieved,
+            'isBase64Encoded': False}
 
 
 # Process encryption requests

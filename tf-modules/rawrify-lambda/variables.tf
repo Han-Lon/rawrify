@@ -45,3 +45,9 @@ variable "api_execution_arn" {
   type = string
   description = "The execution ARN of the API Gateway that should invoke this Lambda."
 }
+
+variable "timeout" {
+  type = number
+  description = "The timeout (in seconds) for the Lambda function"
+  default = 3
+}

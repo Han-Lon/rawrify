@@ -20,6 +20,7 @@ module "steganography-lambda" {
   function_name = "steganography-functionality"
   input_path = "../../lambda_code/steganography-lambda/main.py"
   output_path = "../../lambda_archives/${var.env}/steganography-functionality.zip"
+  timeout = 30
   enable_basic_execution_role = true
   lambda_layer_arns = [aws_lambda_layer_version.requests-toolbelt-layer.arn, aws_lambda_layer_version.cryptography-layer.arn,
   aws_lambda_layer_version.steganography-layer.arn]
