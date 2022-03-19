@@ -54,6 +54,7 @@ module "asymmetric-encryption-lambda" {
   input_path = "../../lambda_code/asymmetric-encryption-lambda/main.py"
   output_path = "../../lambda_archives/${var.env}/asymmetric-encryption-functionality.zip"
   enable_basic_execution_role = true
+  timeout = 5
   lambda_layer_arns = [aws_lambda_layer_version.requests-toolbelt-layer.arn, aws_lambda_layer_version.cryptography-layer.arn]
 }
 
