@@ -11,16 +11,21 @@ from PIL import Image
 
 # Embed data into image using Least Significant Bit (LSB) method
 def stegano_embed(image, body, format="jpg"):
+    # Try converting the user-supplied image to a file-like object
     try:
         bytes_image = io.BytesIO(image)
     except Exception as e:
         return '{"ERROR": "Could not convert image to bytes format. Please ensure your image file is valid."}'
+
+    # Use the Least Significant Bit method of Steganography to hide the user-supplied data
     try:
         secret = lsb.hide(bytes_image, body.decode("utf-8"))
     except Exception as e:
         if "Not a RGB image" in str(e):
             return '{"ERROR": "Please ensure the color scheme of your uploaded image is RGB."}'
         return '{"ERROR": "Could not embed data into image file using Least Significant Bit method."}'
+
+    # Save the generated steganography image to a file-like object
     try:
         secret_bytesIO = io.BytesIO()
         secret.save(secret_bytesIO, format=format)
@@ -36,13 +41,16 @@ def stegano_embed(image, body, format="jpg"):
 
 # Reveal data from image file embedded using Least Significant Bit (LSB)
 def stegano_retrieve(image):
-    # TODO also create backup buckets for 3rd party library builds-- it's a PITA to rebuild on Arm instances and ship the code back every single time I switch branches
+    # Try converting the user-supplied image to a file-like object
     try:
         bytes_image = io.BytesIO(image)
     except Exception as e:
         return '{"ERROR": "Could not convert image to bytes format. Please ensure your image file is valid."}'
 
-    retrieved = lsb.reveal(bytes_image)  # TODO add try/except here; leaving one out for debugging purposes
+    try:
+        retrieved = lsb.reveal(bytes_image)
+    except Exception as e:
+        return '{"ERROR": "Could not retrieve data using Least Significant Bit method. Please check your image."}'
 
     return {'statusCode': 200,
             'headers': {'Content-Type': 'application/octet-stream'},

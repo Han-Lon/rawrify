@@ -2,6 +2,22 @@
     Asymmetric (public+private key) encryption and decryption through Rawrify
 
     Big thanks to https://nitratine.net/blog/post/asymmetric-encryption-and-decryption-in-python/
+
+    This module uses hybrid encryption (asymmetric+symmetric) due to size and efficiency constraints inherent to
+    asymmetric encryption. The encryption process works like this:
+    1. Generate a random symmetric encryption key
+    2. Use the symmetric encryption key to encrypt the message
+    3. Use the user-supplied public key to encrypt the symmetric key
+    4. Send the encrypted message and encrypted symmetric key to the user
+
+    The decryption process is similar:
+    1. Decrypt the encrypted symmetric key using the user-supplied PRIVATE key
+    2. Using the decrypted symmetric key, decrypt the encrypted data
+    3. Return the decrypted data to the user
+
+    The symmetric encryption component of the hybrid encryption process works the same as within the /encrypt route--
+    the only difference is we're generating a random symmetric key on our end, instead of a user specifying the
+    symmetric key.
 """
 import os
 import base64
@@ -12,8 +28,11 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.fernet import Fernet
 
 
-# Encrypt using asymmetric encryption functionality within Python Cryptography
+# Encrypt using hybrid encryption (asymmetric + symmetric) functionality within Python Cryptography
+# Use hybrid encryption to actually encrypt the message, since asymmetric encryption is highly limited in both efficiency and size
+# (Encrypted data cannot be larger than key size)
 def encrypt(key, body):
+    # Load the public key from user supplied value as a cryptography.hazmat.primitives public_key object
     try:
         public_key = serialization.load_pem_public_key(
             key,
@@ -22,10 +41,22 @@ def encrypt(key, body):
     except Exception as e:
         return '{"ERROR": "Could not import key. Please ensure you\'re using the appropriate PUBLIC key."}'
 
+    # Generate a random symmetric encryption key using the Fernet submodule of Cryptography
     try:
         random_key = Fernet.generate_key()
         fernet_key_object = Fernet(random_key)
+    except Exception as e:
+        return '{"ERROR": "Could not generate Fernet random key for hybrid encryption."}'
+
+    # Encrypt the user-supplied message/data using the symmetric key
+    try:
         encrypted_message = fernet_key_object.encrypt(body)
+    except Exception as e:
+        return '{"ERROR": "Error encrypting message using hybrid encryption. Please check your message and try again."}'
+
+    # Encrypt the symmetric key using the user-supplied public key. Then concatenate the encrypted key and the encrypted
+    # message for the user. (format is <encrypted_key>.<encrypted_message>)
+    try:
         encrypted_key = public_key.encrypt(
             random_key,
             padding.OAEP(
@@ -36,7 +67,7 @@ def encrypt(key, body):
         )
         ciphertext = base64.b64encode(encrypted_key) + b"." + encrypted_message
     except Exception as e:
-        return '{"ERROR": "Error encrypting your message with the public key."}'
+        return '{"ERROR": "Error encrypting with the public key. Please check your public key and try again."}'
     return {'statusCode': 200,
             'headers': {'Content-Type': 'application/octet-stream'},
             'body': ciphertext,
@@ -45,6 +76,7 @@ def encrypt(key, body):
 
 # Decrypt using asymmetric decryption functionality within Python Cryptography
 def decrypt(key, body):
+    # Load the private key from user supplied value as a cryptography.hazmat.primitives private_key object
     try:
         private_key = serialization.load_pem_private_key(
             key,
@@ -54,15 +86,18 @@ def decrypt(key, body):
     except Exception as e:
         return '{"ERROR": "Could not import private key. Please ensure you\'re using the appropriate PRIVATE key."}'
 
+    # Process the user-supplied encrypted message
     try:
         # Split the body into two sections based on the period separater-- body[0] is the encrypted AES key, body[1] is the encrypted message
         body = body.split(b".")
-        if len(body) != 2:
-            raise ValueError("Expected body to contain two elements separated by a period. Was the output file from /asymmetric-encrypt modified?")
     except Exception as e:
         return '{"ERROR": "Could not convert input ciphertext from base64 to binary format. Did you submit a non-base64 encoded encrypted message?"}'
 
-    # Catch block here in case decryption key is invalid/wrong key
+    # Ensure the body has two components-- an encrypted key and an encrypted message, separated by a period
+    if len(body) != 2:
+        return '{"ERROR": "Expected body to contain two elements separated by a period. Was the output file from /asymmetric-encrypt modified?"}'
+
+    # Decrypt the symmetric key using the user-supplied private key
     try:
         decrypted_key = private_key.decrypt(
             base64.b64decode(body[0]),
@@ -72,10 +107,15 @@ def decrypt(key, body):
                 label=None
             )
         )
+    except Exception as e:
+        return '{"ERROR": "Could not decrypt encrypted message with this key. Check the key you provided and try again."}'
+
+    # Decrypt the user-supplied message using the decrypted symmetric key
+    try:
         fernet_key_object = Fernet(decrypted_key)
         decrypted_message = fernet_key_object.decrypt(body[1])
     except Exception as e:
-        return '{"ERROR": "Could not decrypt encrypted message with this key. Check the key you provided and try again."}'
+        return '{"ERROR": "Could not decrypt message using "}'
 
     return {'statusCode': 200,
             'headers': {'Content-Type': 'application/octet-stream'},
