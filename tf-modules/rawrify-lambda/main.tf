@@ -35,6 +35,7 @@ resource "aws_lambda_function" "rawrify-lambda" {
   role = aws_iam_role.rawrify-lambda-role.arn
   runtime = "python3.8"
   architectures = [var.architecture]
+  timeout = var.timeout
 
   layers = var.lambda_layer_arns == [""] ? null : var.lambda_layer_arns
 

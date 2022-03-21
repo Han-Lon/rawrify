@@ -7,8 +7,6 @@ from requests_toolbelt.multipart import decoder
 from cryptography.fernet import Fernet, InvalidToken
 
 
-# TODO this handles symmetric encryption. Consider implementing asymmetric encryption as well.
-
 # Encrypt using Fernet functionality within Python Cryptography
 def encrypt(key, body):
     try:

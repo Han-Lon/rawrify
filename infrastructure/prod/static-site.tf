@@ -46,7 +46,6 @@ data "aws_iam_policy_document" "website-bucket-policy" {
 # Static website S3 bucket
 resource "aws_s3_bucket" "website-bucket" {
   bucket = var.env == "prod" ? "rawrify-${data.aws_caller_identity.default-provider-account-id.account_id}-website-content" : "rawrify-dev-website-bucket"
-  acl = "private"
 
   tags = {
     Name = "rawrify-website-bucket"
@@ -54,6 +53,11 @@ resource "aws_s3_bucket" "website-bucket" {
   }
 
   # We don't need to enable static website hosting on the S3 bucket itself since we'll be serving content via CloudFront
+}
+
+resource "aws_s3_bucket_acl" "website-bucket-private" {
+  bucket = aws_s3_bucket.website-bucket.id
+  acl = "private"
 }
 
 # Block public access -- we'll be serving website content via CloudFront
@@ -67,7 +71,7 @@ resource "aws_s3_bucket_public_access_block" "website-bucket-access" {
 }
 
 # Upload the index.html file
-resource "aws_s3_bucket_object" "webpage-file-upload" {
+resource "aws_s3_object" "webpage-file-upload" {
   for_each = fileset("../../s3-static-site/", "**/*.html")
 
   bucket = aws_s3_bucket.website-bucket.id
@@ -79,7 +83,7 @@ resource "aws_s3_bucket_object" "webpage-file-upload" {
 }
 
 # Upload the robots.txt file
-resource "aws_s3_bucket_object" "robots-file-upload" {
+resource "aws_s3_object" "robots-file-upload" {
   bucket = aws_s3_bucket.website-bucket.id
   key = "robots.txt"
   source = var.env == "prod" ? "../../s3-static-site/robots.txt" : "../../s3-static-site/dev/robots.txt"
@@ -89,7 +93,7 @@ resource "aws_s3_bucket_object" "robots-file-upload" {
 }
 
 # Upload the favicon.ico file
-resource "aws_s3_bucket_object" "favicon-file-upload" {
+resource "aws_s3_object" "favicon-file-upload" {
 
   bucket = aws_s3_bucket.website-bucket.id
   key = "favicon.ico"
