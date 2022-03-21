@@ -94,5 +94,38 @@ module "cloudfront-distribution" {
       target_origin_id = "rawrify-api-origin"
       enable_query_string = false
       headers = null
-    }]
+    },
+    {
+      allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/asymmetric-encrypt"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = false
+      headers = null
+    },
+    {
+      allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/asymmetric-decrypt"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = false
+      headers = null
+    },
+    {
+      allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/steg-embed"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = false
+      headers = null
+    },
+    {
+      allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/steg-retrieve"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = false
+      headers = null
+    }
+    ]
 }
