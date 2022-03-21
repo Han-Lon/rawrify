@@ -29,7 +29,7 @@ The rest of this README are for the infrastructure and app code that support Raw
 
 
 ## Feature Roadmap
-- v0.3 (TBD)
+- v0.3
   - Steganographic functions
   - Asymmetric encryption/decryption
 - v0.2
