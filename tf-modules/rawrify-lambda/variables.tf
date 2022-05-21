@@ -51,3 +51,9 @@ variable "timeout" {
   description = "The timeout (in seconds) for the Lambda function"
   default = 3
 }
+
+variable "runtime" {
+  description = "Runtime environment for the Lambda. Defaults to Python3.8"
+  type = string
+  default = "python3.8"
+}
