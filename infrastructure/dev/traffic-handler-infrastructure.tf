@@ -143,5 +143,21 @@ module "cloudfront-distribution" {
       enable_query_string = false
       headers = null
     },
+    {
+      allowed_methods = ["GET", "HEAD"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/get-timezone-time"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = true
+      headers = null
+    },
+    {
+      allowed_methods = ["GET", "HEAD"]
+      cached_methods = ["GET", "HEAD"]
+      path_pattern = "/compare-timezones"
+      target_origin_id = "rawrify-api-origin"
+      enable_query_string = true
+      headers = null
+    }
     ]
 }
