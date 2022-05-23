@@ -33,7 +33,7 @@ resource "aws_lambda_function" "rawrify-lambda" {
   function_name = "rawrify-${var.function_name}-${var.environment}"
   handler = "main.lambda_handler"
   role = aws_iam_role.rawrify-lambda-role.arn
-  runtime = "python3.8"
+  runtime = var.runtime
   architectures = [var.architecture]
   timeout = var.timeout
 
