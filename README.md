@@ -15,6 +15,9 @@
 ### An ultra-lightweight general utility API
 ### Created and maintained by @Han-Lon
 
+## Summary/Intro Videos
+- [Rawrify in 5 minutes](https://www.youtube.com/watch?v=OSPcVrEH7Ms)
+
 ## What is it?
 Simply put, Rawrify is an ultra-lightweight general purpose API that you can use for
 things like getting your public IPv4 address, quickly encoding files/strings as base64, and so on.
